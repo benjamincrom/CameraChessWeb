@@ -59,7 +59,7 @@ const fetchResponse = async (token: string, path: string, options: any = {}) => 
   const config: any = {
     ...options,
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer `,
     },
   }
   const res: any = await window.fetch(`${lichessHost}${path}`, config);

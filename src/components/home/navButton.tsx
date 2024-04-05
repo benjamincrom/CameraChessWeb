@@ -8,9 +8,6 @@ const NavButton = ({ text, tokenRequired }: { text: string, tokenRequired: boole
   const noNavigate = (token === "") && tokenRequired;
 
   const handleClick = () => {
-    if (noNavigate) {
-      return;
-    }
     navigate(`/${text.toLowerCase()}`);
   }
 

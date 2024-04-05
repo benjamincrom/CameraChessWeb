@@ -4,9 +4,14 @@ import { Game, SetBoolean, SetStringArray } from "../../types";
 import { userSelect } from "../../slices/userSlice";
 import { useEffect, useRef, useState } from "react";
 import { lichessPlayMove, lichessStreamEvents, lichessStreamGame } from "../../utils/lichess";
+import { findCorners } from "../../utils/findCorners";
 import { Chess, Color } from "chess.js";
 import { useDispatch } from "react-redux";
 import { gameSelect, gameSetStart, gameUpdate, makeBoard, makeUpdatePayload } from "../../slices/gameSlice";
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
   
   const PlaySidebar = ({ piecesModelRef, xcornersModelRef, videoRef, canvasRef, sidebarRef, 
     playing, setPlaying, text, setText, digital, setDigital }: {
@@ -21,6 +26,15 @@ import { gameSelect, gameSetStart, gameUpdate, makeBoard, makeUpdatePayload } fr
     const [gameId, setGameId] = useState<string>();
     const [color, setColor] = useState<Color>();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+      sleep(4000).then(() => { 
+        findCorners(piecesModelRef, xcornersModelRef, videoRef, canvasRef, dispatch, setText);
+        sleep(10000).then(() => {
+          setPlaying(true);
+        });
+      });
+    }, []);
 
     useEffect(() => {
       gameRef.current = game;
